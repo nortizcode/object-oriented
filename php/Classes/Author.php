@@ -100,7 +100,7 @@ class Author {
 		}
 
 		// store the email
-		$this->AuthorEmail = $newAuthorEmail;
+		$this->authorEmail = $newAuthorEmail;
 	}
 
 	public function getAuthorHash(): string {
@@ -117,7 +117,7 @@ class Author {
 	 */
 	public function setAuthorHash(string $newAuthorHash): void {
 		//enforce that the hash is properly formatted
-		$newProfileHash = trim($newAuthorHash);
+		$newAuthorHash = trim($newAuthorHash);
 		if(empty($newAuthorHash) === true) {
 			throw(new \InvalidArgumentException("profile password hash empty or insecure"));
 		}
@@ -180,6 +180,54 @@ class Author {
 
 		// store the at handle
 		$this->authorUsername = $newAuthorUsername;
+	}
+
+	public function insert(\PDO $pdo) : void {
+
+		// create query template
+		$query = "INSERT INTO author(authorId, authorActivationToken, authorEmail, authorHash, authorUsername, authorAvatarUrl) VALUES(:authorId, :authorActivationToken, :authorEmail, :authorHash, authorUsername, authorAvatarUrl)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["authorId" => $this->authorId->getBytes(), "authorActivationToken" => $this->authorActivationToken->getBytes(), "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl];
+		$statement->execute($parameters);
+	}
+
+
+	/**
+	 * deletes this Tweet from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
+
+		// create query template
+		$query = "DELETE FROM author WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["authorId" => $this->authorId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this Tweet in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+
+		// create query template
+		$query = "UPDATE author SET authorActivationToken = :authorActivationToken, authorAvatarUrl = :authorAvatarUrl, authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+
+		$parameters = ["authorId" => $this->authorId->getBytes(),"authorActivationToken" => $this->authorActivationToken->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$statement->execute($parameters);
 	}
 
 }
