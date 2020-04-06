@@ -2,7 +2,7 @@
 
 require_once(dirname(__DIR__) . "/Classes/autoload.php");
 require_once(dirname(__DIR__, 1) . "/Classes/Author.php");
-use \Nortiz41\ObjectOriented\Author;
+use \Nortizcode\ObjectOriented\Author;
 
 
 	$authorId= "7214d724-3f4e-4691-bd3d-9540adb91b14";
