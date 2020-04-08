@@ -16,3 +16,4 @@ use \Nortizcode\ObjectOriented\Author;
 $author = new Author($authorId, $authorActivationToken,$authorEmail, $authorHash, $authorAvatarUrl, $authorUsername);
 
 	var_dump($author);
+
