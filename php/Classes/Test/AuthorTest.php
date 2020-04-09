@@ -17,7 +17,7 @@ class AuthorTest extends DataDesignTest {
 
 private $VALID_AUTHOR_ACTIVATION_TOKEN; //done in set up
 private $VALID_AUTHOR_EMAIL = "nkortiz92@gmail.com";
-private $VALID_AUTHOR_HASH; = //done in set up
+private $VALID_AUTHOR_HASH; //done in set up
 private $VALID_AUTHOR_AVATAR = "https://avatar.com";
 private $VALID_AUTHOR_USERNAME= "Nortiz41";
 
@@ -38,7 +38,7 @@ public function setUp(): void {
 		$author->insert($this->getPDO());
 		//check count of author records in the db after the insert
 		$numRowsAfterInsert = $this->getConnection()->getRowCount("author");
-		self::assertEquals($numRows + 1, $numRowsAfterInsert);
+		self::assertEquals($numRows + 1, $numRowsAfterInsert, );
 
 		//get a copy of the record just inserted and validate the values
 		//make sure the values that went into the record are the same ones that come out.
